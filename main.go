@@ -1,8 +1,8 @@
 package main
 
 import(
-	"fmt"
+	"AuthService/server"
 )
 func main(){
-	fmt.Println("Hello, World")
+	
 }
