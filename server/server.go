@@ -4,8 +4,11 @@ import(
  "os"
  "github.com/gorilla/mux"
  "AuthService/api/v1/handlers"
+ "AuthService/api/v1/services"
  "net/http"
  "AuthService/config"
+ "log"
+ "fmt"
 )
 
 type ServerInterface interface{
@@ -13,25 +16,28 @@ type ServerInterface interface{
 }
 type Server struct{}
 
-type NewServer() ServerInterface {
+func NewServer() ServerInterface {
 	return Server{}
 }
 
 func(s Server)Start(){
 	os.Setenv("ENV","TEST")
 
+	serverconfigs:=config.GetServerConfig()
+	fmt.Println(serverconfigs)
 	router:=mux.NewRouter()
+	authService:=services.NewAuthService()
+	handlers:=handlers.NewAuthHandler(authService)
+	router.HandleFunc("/",handlers.Homepage)
 
-	router.HandleFunc("/",Homepage)
 
-	serverConfigs:=config.GetServerConfig()
 	authRouter:=router.Methods(http.MethodPost).Subrouter()
-	router.HandleFunc("/auth",handlers.Authentication)
+	authRouter.HandleFunc("/auth",handlers.Authentication)
 	
 	srv:=&http.Server{
 		Handler: router,
-		Addr : serverConfigs.Host+":"+serverConfigs.Port,
+		Addr : "localhost:9000",
 
 	}
-	log.Fatal(srv.ListenAndServer())
+	log.Fatal(srv.ListenAndServe())
 }

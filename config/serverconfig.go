@@ -10,9 +10,10 @@ var serverConfig ServerConfig
 
 func init(){
 	serverConfig= ServerConfig{
-		Host getstringEmpty("AUTH_HOST")
-		Port getstringEmpty("AUTH_PORT")
+		Host: getstringEmpty("AUTH_HOST"),
+		Port: getstringEmpty("AUTH_PORT"),
 	}
+	
 }
 
 func GetServerConfig() ServerConfig{
