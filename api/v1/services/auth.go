@@ -5,6 +5,12 @@ import(
 	"fmt"
 	jwt "github.com/dgrijalva/jwt-go"
 )
+var(
+	AuthService AuthInterface
+)
+func init(){
+	AuthService=&Authenticate{}
+}
 var mySecretKey= []byte("My Secret key is not secret@dont reveal nkln")
 type Authenticate struct{}
 
