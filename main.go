@@ -5,6 +5,7 @@ import(
 	"os"
 )
 func main(){
+	//Starting Server
 	os.Setenv("ENVIRONMENT","TEST")
 	
 	ServiceServer:=server.NewServer()
